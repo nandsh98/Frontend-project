@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nandini Sharma - Portfolio</title>
+    <style>
+        /* Basic page setup */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f8fb;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        /* Top Header */
+        header {
+            background-color: #0b1f3a;
+            color: white;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 15px;
+        }
+
+        nav a.active {
+            color: #ffcc00;
+            font-weight: bold;
+        }
+
+        /* Top Hero Section */
+        .hero {
+            background-color: #e3effd;
+            padding: 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .hero-text {
+            max-width: 500px;
+        }
+
+        .hero-text h1 {
+            color: #0b1f3a;
+            font-size: 35px;
+            margin-bottom: 10px;
+        }
+
+        .hero-text h2 {
+            color: #0056b3;
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            background-color: #0b1f3a;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 15px;
+        }
+
+        /* Round profile photo styling */
+        .hero img {
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid white;
+        }
+
+        /* Main container for sections */
+        .container {
+            padding: 40px 50px;
+        }
+
+        .row {
+            display: flex;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .box {
+            flex: 1;
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            border: 1px solid #d1e2f3;
+        }
+
+        h3 {
+            color: #0b1f3a;
+            border-bottom: 2px solid #0056b3;
+            padding-bottom: 5px;
+            margin-top: 0;
+        }
+
+        /* Simple Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        /* Contact Form */
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #0b1f3a;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header / Navbar -->
+    <header>
+        <div>
+            <h2>Nandini Sharma</h2>
+            <p style="margin:0; font-size:13px; color:#b0c4de;">Web Developer</p>
+        </div>
+        <nav>
+            <a href="#" class="active">Home</a>
+            <a href="#">About</a>
+            <a href="#">Skills</a>
+            <a href="#">Education</a>
+            <a href="#">Projects</a>
+            <a href="#">Contact</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-text">
+            <h1>Hi, I’m Nandini Sharma</h1>
+            <h2>Web Developer</h2>
+            <p>I am a passionate web developer with a strong interest in building clean, responsive and user-friendly websites.</p>
+            <a href="#" class="btn">Download CV</a>
+        </div>
+        <div>
+             <img src="C:\Users\Nandini Sharma\Downloads\prof.jpeg">
+        </div>
+    </section>
+
+    <!-- Content Sections -->
+    <div class="container">
+
+        <!-- First Row: About Me & Skills -->
+        <div class="row">
+            <div class="box">
+                <h3>About Me</h3>
+                <p>I am a quick learner and a team player. I enjoy solving problems and learning new technologies. My goal is to become a full stack developer.</p>
+            </div>
+            <div class="box">
+                <h3>Skills</h3>
+                <ul>
+                    <li>HTML</li>
+                    <li>CSS</li>
+                    <li>JavaScript</li>
+                    <li>Python</li>
+                    <li>Java</li>
+		    <li>C/C++</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Second Row: Education Table -->
+        <div class="row">
+            <div class="box">
+                <h3>Education</h3>
+                <table>
+                    <tr>
+                        <th>Qualification</th>
+                        <th>Institute</th>
+                        <th>Year</th>
+                        <th>Percentage</th>
+                    </tr>
+                    <tr>
+                        <td>B.Tech (CSE)</td>
+                        <td>GLA University</td>
+                        <td>2026</td>
+                        <td>8.2CGPA</td>
+                    </tr>
+                    <tr>
+                        <td>12th </td>
+                        <td>Dayawati Modi Academy</td>
+                        <td>2025</td>
+                        <td>85%</td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Contact Form Box -->
+            <div class="box">
+                <h3>Contact Me</h3>
+                <form>
+                    <label>Name</label>
+                    <input type="text" placeholder="Enter your name">
+
+                    <label>Email</label>
+                    <input type="email" placeholder="Enter your email">
+
+                    <label>Message</label>
+                    <textarea placeholder="Type your message..."></textarea>
+
+                    <button type="submit" class="btn" style="margin-top:0;">Send Message</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Nandini Sharma. All Rights Reserved.</p>
+    </footer>
+
+</body>
+</html>
