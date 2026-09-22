@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Frontend Lab Assignment 2 - All 5 Tasks</title>
+  <style>
+    /* Global Resets and Base Typography */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: #f1f5f9;
+      color: #334155;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top Navigation Header for Switching Tasks */
+    header {
+      background-color: #1e293b;
+      color: #ffffff;
+      padding: 14px 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+    .nav-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: #f8fafc;
+    }
+    .nav-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .nav-btn {
+      background-color: #334155;
+      color: #e2e8f0;
+      border: 1px solid #475569;
+      padding: 7px 13px;
+      border-radius: 5px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .nav-btn:hover {
+      background-color: #475569;
+      color: #ffffff;
+    }
+    .nav-btn.active {
+      background-color: #0284c7;
+      border-color: #38bdf8;
+      color: #ffffff;
+    }
+
+    /* Main Container & Tab Visibility */
+    main {
+      flex: 1;
+      max-width: 1000px;
+      width: 100%;
+      margin: 25px auto;
+      padding: 0 16px;
+    }
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.25s ease-in-out;
+    }
+    .tab-content.active {
+      display: block;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card {
+      background-color: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 28px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+    .task-header {
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid #e2e8f0;
+    }
+    .task-badge {
+      display: inline-block;
+      background-color: #e0f2fe;
+      color: #0369a1;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .task-header h2 {
+      font-size: 1.35rem;
+      color: #0f172a;
+    }
+
+    /* TASK 1: Student Marksheet Styles */
+    .marksheet-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 15px 0;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+    .marksheet-table caption {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 12px;
+    }
+    .marksheet-table th, 
+    .marksheet-table td {
+      border: 1px solid #cbd5e1;
+      padding: 9px 12px;
+    }
+    .marksheet-table th {
+      background-color: #1e293b;
+      color: #ffffff;
+    }
+    .marksheet-table .meta-cell {
+      text-align: left;
+      font-weight: 600;
+      background-color: #f8fafc;
+      color: #334155;
+    }
+    .marksheet-table .highlight-row {
+      font-weight: bold;
+      background-color: #e2e8f0;
+    }
+    .marksheet-table .status-pass {
+      color: #15803d;
+      font-weight: bold;
+    }
+
+    /* TASK 2: Resume Webpage Styles */
+    .resume-header h1 {
+      font-size: 1.8rem;
+      color: #0f172a;
+    }
+    .resume-header p {
+      font-size: 0.9rem;
+      color: #64748b;
+      margin: 4px 0 16px 0;
+    }
+    .resume-section-title {
+      font-size: 1.05rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #1e3a8a;
+      border-bottom: 2px solid #cbd5e1;
+      padding-bottom: 4px;
+      margin: 20px 0 10px 0;
+    }
+    .resume-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 0.88rem;
+    }
+    .resume-table th, .resume-table td {
+      border: 1px solid #cbd5e1;
+      padding: 8px 12px;
+      text-align: left;
+    }
+    .resume-table th {
+      background-color: #f1f5f9;
+      color: #1e293b;
+    }
+    .resume-list {
+      padding-left: 20px;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    /* TASK 3: Restaurant Menu Styles */
+    .menu-container {
+      max-width: 650px;
+      margin: 0 auto;
+      font-family: Georgia, serif;
+    }
+    .menu-title {
+      text-align: center;
+      color: #78350f;
+      font-size: 1.8rem;
+      margin-bottom: 2px;
+    }
+    .menu-subtitle {
+      text-align: center;
+      font-style: italic;
+      color: #8c786a;
+      margin-bottom: 20px;
+      font-size: 0.95rem;
+    }
+    .menu-category-title {
+      color: #9a3412;
+      border-bottom: 1px dashed #d97706;
+      padding-bottom: 4px;
+      margin: 22px 0 10px 0;
+      font-size: 1.2rem;
+    }
+    .menu-list {
+      padding-left: 24px;
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+    .menu-price {
+      float: right;
+      font-weight: bold;
+      color: #b45309;
+      font-family: Arial, sans-serif;
+    }
+
+    /* TASK 4: Registration Form Styles */
+    .form-wrapper {
+      max-width: 520px;
+      margin: 0 auto;
+    }
+    .form-group {
+      margin-bottom: 16px;
+    }
+    .form-label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 6px;
+      font-size: 0.88rem;
+      color: #1e293b;
+    }
+    .form-input, .form-select {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      outline: none;
+    }
+    .form-input:focus, .form-select:focus {
+      border-color: #0284c7;
+      box-shadow: 0 0 0 2px rgba(2, 132, 199, 0.2);
+    }
+    .inline-label {
+      font-weight: normal;
+      margin-right: 14px;
+      margin-left: 5px;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+    .btn-submit {
+      width: 100%;
+      background-color: #0284c7;
+      color: #ffffff;
+      padding: 10px 14px;
+      border: none;
+      border-radius: 4px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-submit:hover {
+      background-color: #0369a1;
+    }
+
+    /* TASK 5: Login Page Styles */
+    .login-wrapper {
+      max-width: 360px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .login-wrapper h3 {
+      font-size: 1.4rem;
+      color: #0f172a;
+      margin-bottom: 4px;
+    }
+    .login-subtitle {
+      font-size: 0.85rem;
+      color: #64748b;
+      margin-bottom: 22px;
+    }
+    .login-wrapper .form-group {
+      text-align: left;
+    }
+    .checkbox-row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 18px;
+      font-size: 0.85rem;
+      color: #475569;
+    }
+    .checkbox-row input {
+      margin-right: 8px;
+    }
+    .btn-login {
+      width: 100%;
+      background-color: #16a34a;
+      color: #ffffff;
+      padding: 10px 14px;
+      border: none;
+      border-radius: 4px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-login:hover {
+      background-color: #15803d;
+    }
+    .login-links {
+      margin-top: 16px;
+      font-size: 0.82rem;
+    }
+    .login-links a {
+      color: #0284c7;
+      text-decoration: none;
+    }
+    .login-links a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="nav-container">
+      <div class="nav-title">Frontend: Lab Assignment 2</div>
+      <div class="nav-buttons">
+        <button class="nav-btn active" onclick="showTab(1)">1. Marksheet</button>
+        <button class="nav-btn" onclick="showTab(2)">2. Resume</button>
+        <button class="nav-btn" onclick="showTab(3)">3. Restaurant Menu</button>
+        <button class="nav-btn" onclick="showTab(4)">4. Registration Form</button>
+        <button class="nav-btn" onclick="showTab(5)">5. Login Page</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- TASK 1: STUDENT MARKSHEET -->
+    <div id="tab-1" class="tab-content active">
+      <div class="card">
+        <div class="task-header">
+          <span class="task-badge">Task 1</span>
+          <h2>Student Marksheet (HTML Table)</h2>
+        </div>
+        <table class="marksheet-table">
+          <caption>STATEMENT OF MARKS (SEMESTER I)</caption>
+          <tr>
+            <td colspan="3" class="meta-cell">Student Name:Ellie </td>
+            <td colspan="2" class="meta-cell">Roll Number: 2026-CS-042</td>
+          </tr>
+          <tr>
+            <td colspan="3" class="meta-cell">Degree: B.Tech Computer Science &amp; Engineering</td>
+            <td colspan="2" class="meta-cell">Academic Year: 2025&;2026</td>
+          </tr>
+          <tr>
+            <th>Subject Code</th>
+            <th>Subject Name</th>
+            <th>Max Marks</th>
+            <th>Marks Obtained</th>
+            <th>Grade</th>
+          </tr>
+          <tr>
+            <td>CS401</td>
+            <td>Operating Systems</td>
+            <td>100</td>
+            <td>88</td>
+            <td>A</td>
+          </tr>
+          <tr>
+            <td>CS402</td>
+            <td>Database Management Systems</td>
+            <td>100</td>
+            <td>91</td>
+            <td>A+</td>
+          </tr>
+          <tr>
+            <td>CS403</td>
+            <td>Frontend Web Technologies</td>
+            <td>100</td>
+            <td>96</td>
+            <td>A+</td>
+          </tr>
+          <tr>
+            <td>CS404</td>
+            <td>Computer Networks</td>
+            <td>100</td>
+            <td>84</td>
+            <td>A</td>
+          </tr>
+          <tr>
+            <td>CS405</td>
+            <td>Design &amp; Analysis of Algorithms</td>
+            <td>100</td>
+            <td>79</td>
+            <td>B+</td>
+          </tr>
+          <tr class="highlight-row">
+            <td colspan="2">Total Marks</td>
+            <td>500</td>
+            <td>438</td>
+            <td class="status-pass">PASS</td>
+          </tr>
+          <tr class="highlight-row">
+            <td colspan="3">Percentage: 87.6%</td>
+            <td colspan="2">Result: First Class with Distinction</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- TASK 2: RESUME WEBPAGE -->
+    <div id="tab-2" class="tab-content">
+      <div class="card">
+        <div class="task-header">
+          <span class="task-badge">Task 2</span>
+          <h2>Resume Webpage</h2>
+        </div>
+        <div class="resume-header">
+          <h1>Ellie</h1>
+          <p>Email: ellie.1@example.com | Phone: +91 98765 43210 | Location: Greater Noida, India</p>
+        </div>
+
+        <h3 class="resume-section-title">Career Objective</h3>
+        <p style="font-size: 0.9rem; line-height: 1.6;">
+          Aspiring Software Developer and B.Tech Computer Science student seeking to leverage foundational frontend development and software engineering skills to build clean, user-centric, and efficient web applications.
+        </p>
+
+        <h3 class="resume-section-title">Education</h3>
+        <table class="resume-table">
+          <tr>
+            <th>Degree / Qualification</th>
+            <th>Institution / Board</th>
+            <th>Year</th>
+            <th>Score / CGPA</th>
+          </tr>
+          <tr>
+            <td>B.Tech in Computer Science</td>
+            <td>State Technical University</td>
+            <td>2023 &ndash; 2027</td>
+            <td>8.8 CGPA</td>
+          </tr>
+          <tr>
+            <td>Class XII (Senior Secondary)</td>
+            <td>Delhi Public School (CBSE)</td>
+            <td>2023</td>
+            <td>92.4%</td>
+          </tr>
+          <tr>
+            <td>Class X (Secondary)</td>
+            <td>Delhi Public School (CBSE)</td>
+            <td>2021</td>
+            <td>94.8%</td>
+          </tr>
+        </table>
+
+        <h3 class="resume-section-title">Technical Skills</h3>
+        <ul class="resume-list">
+          <li><strong>Languages:</strong> C++, Python, JavaScript (ES6+), HTML5, CSS3</li>
+          <li><strong>Web Concepts:</strong> Responsive Web Design, CSS Flexbox &amp; Grid, DOM Manipulation</li>
+          <li><strong>Developer Tools:</strong> Git, GitHub, VS Code, Chrome DevTools</li>
+        </ul>
+
+        <h3 class="resume-section-title">Academic Projects</h3>
+        <ul class="resume-list">
+          <li>
+            <strong>Online Student Marksheet &amp; Grading System:</strong>
+            Developed a semantic frontend application displaying modular student marksheets with dynamic grade computations.
+          </li>
+          <li>
+            <strong>Interactive Bistro Restaurant Menu:</strong>
+            Constructed a categorized, multi-tiered digital menu utilizing semantic nested ordered and unordered lists.
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- TASK 3: RESTAURANT MENU -->
+    <div id="tab-3" class="tab-content">
+      <div class="card">
+        <div class="task-header">
+          <span class="task-badge">Task 3</span>
+          <h2>Restaurant Menu (Using Lists)</h2>
+        </div>
+        <div class="menu-container">
+          <h1 class="menu-title">The Heritage Kitchen</h1>
+          <p class="menu-subtitle">Authentic Flavors &bull; Crafted with Care</p>
+
+          <h3 class="menu-category-title">1. Appetizers &amp; Starters</h3>
+          <ul class="menu-list">
+            <li>Paneer Tikka Shashlik <span class="menu-price">&#8377; 240</span></li>
+            <li>Crispy Corn &amp; Pepper Fry <span class="menu-price">&#8377; 190</span></li>
+            <li>Stuffed Button Mushrooms <span class="menu-price">&#8377; 220</span></li>
+            <li>Bruschetta al Pomodoro <span class="menu-price">&#8377; 180</span></li>
+          </ul>
+
+          <h3 class="menu-category-title">2. Chef's Ranked Specialties (Main Course)</h3>
+          <ol class="menu-list">
+            <li>Dum Handi Dal Makhani with Garlic Naan <span class="menu-price">&#8377; 320</span></li>
+            <li>Shahi Paneer Lababdar <span class="menu-price">&#8377; 350</span></li>
+            <li>Wild Mushroom Cream Risotto <span class="menu-price">&#8377; 390</span></li>
+            <li>Wood-Fired Margherita Pizza <span class="menu-price">&#8377; 310</span></li>
+          </ol>
+
+          <h3 class="menu-category-title">3. Beverages &amp; Desserts</h3>
+          <ul class="menu-list">
+            <li>Refreshing Beverages
+              <ul>
+                <li>Fresh Lime Mint Cooler <span class="menu-price">&#8377; 95</span></li>
+                <li>Classic Cold Brew Coffee <span class="menu-price">&#8377; 140</span></li>
+              </ul>
+            </li>
+            <li>Artisanal Desserts
+              <ul>
+                <li>Warm Walnut Brownie with Ice Cream <span class="menu-price">&#8377; 175</span></li>
+                <li>Royal Kesar Pista Kulfi <span class="menu-price">&#8377; 120</span></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- TASK 4: REGISTRATION FORM -->
+    <div id="tab-4" class="tab-content">
+      <div class="card">
+        <div class="task-header">
+          <span class="task-badge">Task 4</span>
+          <h2>Registration Form</h2>
+        </div>
+        <div class="form-wrapper">
+          <form action="#" method="POST" onsubmit="event.preventDefault(); alert('Form submitted successfully!');">
+            <!-- Text Input -->
+            <div class="form-group">
+              <label for="reg_fullname" class="form-label">Full Name</label>
+              <input type="text" id="reg_fullname" name="fullname" class="form-input" placeholder="e.g. John Doe" required>
+            </div>
+
+            <!-- Email Input -->
+            <div class="form-group">
+              <label for="reg_email" class="form-label">Email Address</label>
+              <input type="email" id="reg_email" name="email" class="form-input" placeholder="john.doe@example.com" required>
+            </div>
+
+            <!-- Password Input -->
+            <div class="form-group">
+              <label for="reg_password" class="form-label">Password</label>
+              <input type="password" id="reg_password" name="password" class="form-input" placeholder="Enter secure password" required>
+            </div>
+
+            <!-- Dropdown -->
+            <div class="form-group">
+              <label for="reg_course" class="form-label">Select Course</label>
+              <select id="reg_course" name="course" class="form-select" required>
+                <option value="">-- Choose Course --</option>
+                <option value="btech_cs">B.Tech - Computer Science</option>
+                <option value="btech_it">B.Tech - Information Technology</option>
+                <option value="bca">Bachelor of Computer Applications (BCA)</option>
+                <option value="mca">Master of Computer Applications (MCA)</option>
+              </select>
+            </div>
+
+            <!-- Radio Buttons -->
+            <div class="form-group">
+              <label class="form-label">Gender</label>
+              <input type="radio" id="gender_male" name="gender" value="male" required>
+              <label for="gender_male" class="inline-label">Male</label>
+
+              <input type="radio" id="gender_female" name="gender" value="female">
+              <label for="gender_female" class="inline-label">Female</label>
+
+              <input type="radio" id="gender_other" name="gender" value="other">
+              <label for="gender_other" class="inline-label">Other</label>
+            </div>
+
+            <!-- Checkboxes -->
+            <div class="form-group">
+              <label class="form-label">Areas of Interest</label>
+              <input type="checkbox" id="interest_web" name="interests" value="web_dev">
+              <label for="interest_web" class="inline-label">Web Development</label>
+
+              <input type="checkbox" id="interest_ai" name="interests" value="ai_ml">
+              <label for="interest_ai" class="inline-label">AI &amp; Machine Learning</label>
+
+              <input type="checkbox" id="interest_cloud" name="interests" value="cloud">
+              <label for="interest_cloud" class="inline-label">Cloud Computing</label>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn-submit">Submit Registration</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- TASK 5: LOGIN PAGE -->
+    <div id="tab-5" class="tab-content">
+      <div class="card">
+        <div class="task-header">
+          <span class="task-badge">Task 5</span>
+          <h2>Login Page</h2>
+        </div>
+        <div class="login-wrapper">
+          <h3>Student Portal</h3>
+          <p class="login-subtitle">Please sign in to access your account</p>
+
+          <form action="#" method="POST" onsubmit="event.preventDefault(); alert('Signed in successfully!');">
+            <div class="form-group">
+              <label for="login_user" class="form-label">Username or Email</label>
+              <input type="text" id="login_user" name="username" class="form-input" placeholder="Username / Email" required>
+            </div>
+
+            <div class="form-group">
+              <label for="login_pass" class="form-label">Password</label>
+              <input type="password" id="login_pass" name="password" class="form-input" placeholder="Password" required>
+            </div>
+
+            <div class="checkbox-row">
+              <input type="checkbox" id="login_remember" name="remember">
+              <label for="login_remember">Remember this device</label>
+            </div>
+
+            <button type="submit" class="btn-login">Sign In</button>
+
+            <div class="login-links">
+              <a href="#" onclick="alert('Password reset link sent!'); return false;">Forgot password?</a> &bull; 
+              <a href="#" onclick="showTab(4); return false;">Create an account</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    function showTab(taskNumber) {
+      // Hide all tabs
+      const tabs = document.querySelectorAll('.tab-content');
+      tabs.forEach(tab => tab.classList.remove('active'));
+
+      // Deactivate all buttons
+      const buttons = document.querySelectorAll('.nav-btn');
+      buttons.forEach(btn => btn.classList.remove('active'));
+
+      // Activate selected tab and button
+      const selectedTab = document.getElementById('tab-' + taskNumber);
+      if (selectedTab) {
+        selectedTab.classList.add('active');
+      }
+      if (buttons[taskNumber - 1]) {
+        buttons[taskNumber - 1].classList.add('active');
+      }
+    }
+  </script>
+</body>
+</html>
